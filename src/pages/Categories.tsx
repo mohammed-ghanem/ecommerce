@@ -4,6 +4,8 @@ import Category from "@components/ecommerce/category/Category"
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { actGetCategories } from "@store/categories/CategoriesSlice";
 
+import Loading from "@components/feedback/Loading";
+
 
 
 const Categories = () => {
@@ -22,9 +24,11 @@ const Categories = () => {
 
   return (
     <Container>
-      <Row>
-        {categoriesList}
-      </Row>
+      <Loading loading={loading} error={error}>
+        <Row>
+          {categoriesList}
+        </Row>
+      </Loading>
     </Container>
   )
 }

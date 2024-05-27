@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { actGetProductsByCatPrefix, productsCleanUp } from "@store/products/ProductsSlice";
 import { Container, Row, Col } from "react-bootstrap";
 import Product from "@components/ecommerce/product/Product"
+import Loading from "@components/feedback/Loading";
 
 const Products = () => {
   const params = useParams();
@@ -32,11 +33,11 @@ const Products = () => {
         </Col>
       ))
       : "there are no products";
-
-
   return (
     <Container>
-      <Row>{productsList}</Row>
+      <Loading loading={loading} error={error}>
+        <Row>{productsList}</Row>
+      </Loading>
     </Container>
   )
 }
