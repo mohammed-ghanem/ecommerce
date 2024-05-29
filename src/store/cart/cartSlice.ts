@@ -3,7 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 import { TProduct } from '@customTypes/sharedProducts';
 
 interface ICartState {
+
+    // items {[id] :  quantity }
+
     items: { [key: number]: number };
+
+    
     productFullInfo: TProduct[];
 }
 
@@ -17,8 +22,12 @@ const cartSlice = createSlice({
     initialState,
     reducers: {
         addToCart: (state, action) => {
-            console.log(action.payload);
-
+            const id = action.payload;
+            if (state.items[id]) {
+                state.items[id]++
+            } else {
+                state.items[id] = 1
+            }
         },
     },
 });

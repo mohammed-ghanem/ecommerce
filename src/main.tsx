@@ -1,18 +1,19 @@
 import ReactDOM from 'react-dom/client'
 // redux toolkit 
 import { Provider } from 'react-redux';
-import store from '@store/index';
+import { store, persistor } from "@store/index";
+
+import { PersistGate } from "redux-persist/integration/react";
 // styles
 import "bootstrap/dist/css/bootstrap.min.css";
 import { AppRouter } from './routers/AppRouter';
 
 
 
-
-
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <Provider store={store}><AppRouter /></Provider>
-
-)
-
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <AppRouter />
+    </PersistGate>
+  </Provider>
+);
