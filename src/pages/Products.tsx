@@ -35,6 +35,7 @@ const Products = () => {
       : "there are no products";
   return (
     <Container>
+      <p>{params.prefix}</p>
       <Loading loading={loading} error={error}>
         <Row>{productsList}</Row>
       </Loading>
