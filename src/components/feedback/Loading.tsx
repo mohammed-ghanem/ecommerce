@@ -3,7 +3,7 @@ import { TLoading } from "@customTypes/sharedTypes";
 type LoadingProps = {
   loading: TLoading;
   error: null | string;
-  children: React.JSX.Element;
+  children: React.ReactNode;
 };
 
 const Loading = ({ loading, error, children }: LoadingProps) => {

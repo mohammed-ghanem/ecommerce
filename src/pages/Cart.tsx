@@ -1,26 +1,62 @@
-import { useEffect } from "react"
-import { useAppDispatch, useAppSelector } from "@store/hooks"
-import { actGetProductsByItems } from "@store/cart/cartSlice"
-import CartSubtotalPrice from "@components/ecommerce/cartSubtotalPrice/CartSubtotalPrice"
-import CartItemList from "@components/ecommerce/CartItemList/CartItemList"
+import { useCallback, useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "@store/hooks";
+import {
+  actGetProductsByItems,
+  cartItemChangeQuantity,
+  cartItemRemove,
+} from "@store/cart/cartSlice";
+import Loading from "@components/feedback/Loading";
+import CartItemList from "@components/ecommerce/CartItemList/CartItemList";
+
+
+
 const Cart = () => {
+  const dispatch = useAppDispatch();
+  const { items, productsFullInfo, loading, error } = useAppSelector(
+    (state) => state.cart
+  );
 
-    const dispatch = useAppDispatch()
-    const { items, productsFullInfo } = useAppSelector((state) => state.cart)
-    useEffect(() => {
-        dispatch(actGetProductsByItems());
-    }, [dispatch]);
+  useEffect(() => {
+    dispatch(actGetProductsByItems());
+  }, [dispatch]);
 
-    const products = productsFullInfo.map((el) => ({ ...el, quantity: items[el.id] }))
+  const products = productsFullInfo.map((el) => ({
+    ...el,
+    quantity: items[el.id],
+  }));
 
+  const changeQuantityHandler = useCallback(
+    (id: number, quantity: number) => {
+      dispatch(cartItemChangeQuantity({ id, quantity }));
+    },
+    [dispatch]
+  );
 
-    return (
-        <div>
+  const removeItemHandler = useCallback(
+    (id: number) => {
+      dispatch(cartItemRemove(id));
+    },
+    [dispatch]
+  );
 
-            <CartItemList products={products} />
-            <CartSubtotalPrice />
-        </div>
-    )
-}
+  return (
+    <>
+      <Loading loading={loading} error={error}>
+        {products.length ? (
+          <>
+            <CartItemList
+              products={products}
+              changeQuantityHandler={changeQuantityHandler}
+              removeItemHandler={removeItemHandler}
+            />
+            {/* <CartSubtotalPrice products={products} /> */}
+          </>
+        ) : (
+          "Your Cart is empty"
+        )}
+      </Loading>
+    </>
+  );
+};
 
-export default Cart
+export default Cart;
