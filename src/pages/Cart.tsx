@@ -7,6 +7,7 @@ import {
 } from "@store/cart/cartSlice";
 import Loading from "@components/feedback/Loading";
 import CartItemList from "@components/ecommerce/CartItemList/CartItemList";
+import CartSubtotalPrice from "@components/ecommerce/cartSubtotalPrice/CartSubtotalPrice";
 
 
 
@@ -49,7 +50,7 @@ const Cart = () => {
               changeQuantityHandler={changeQuantityHandler}
               removeItemHandler={removeItemHandler}
             />
-            {/* <CartSubtotalPrice products={products} /> */}
+            <CartSubtotalPrice products={products} />
           </>
         ) : (
           "Your Cart is empty"
