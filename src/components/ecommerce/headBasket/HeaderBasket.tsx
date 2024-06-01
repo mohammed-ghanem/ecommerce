@@ -5,15 +5,14 @@ import { getCartTotalQuantitySelector } from "@store/cart/selector";
 import Logo from "@assets/svg/cart.svg?react";
 import styles from "./style.module.css"
 
-const { basketContainer, basketQuantity, pumpCartQuantity, basketCart } =
-    styles;
+const { container, totalNum, pumpAnimate, iconWrapper } = styles;
 
 const HeaderBasket = () => {
 
     const navigate = useNavigate()
     const [isAnimate, setIsAnimate] = useState(false);
     const totalQuantity = useAppSelector(getCartTotalQuantitySelector);
-    const quantityStyle = `${basketQuantity} ${isAnimate ? pumpCartQuantity : ""
+    const quantityStyle = `${totalNum} ${isAnimate ? pumpAnimate : ""
         }`;
 
     useEffect(() => {
@@ -34,8 +33,8 @@ const HeaderBasket = () => {
 
 
     return (
-        <div className={basketContainer} onClick={() => navigate("/cart")}>
-            <div className={basketCart}>
+        <div className={container} onClick={() => navigate("/cart")}>
+            <div className={iconWrapper}>
                 <Logo title="basket icon" />
                 <div className={quantityStyle}>{cartItems}</div>
             </div>
