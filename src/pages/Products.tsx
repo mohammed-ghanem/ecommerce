@@ -10,6 +10,7 @@ const Products = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
   const { loading, error, records } = useAppSelector((state) => state.products);
+  // const wishListItemsId = useAppSelector((state) => state.Wishlist.itemsId)
 
   useEffect(() => {
     dispatch(actGetProductsByCatPrefix(params.prefix as string));
@@ -21,26 +22,29 @@ const Products = () => {
   }, [dispatch, params]);
 
 
-  const productsList =
-    records.length > 0
-      ? records.map((record) => (
-        <Col
-          xs={3}
-          key={record.id}
-          className="d-flex justify-content-center mb-5 mt-2"
-        >
-          <Product {...record} />
-        </Col>
-      ))
-      : "there are no products";
-  return (
-    <Container>
-      <p>{params.prefix}</p>
-      <Loading loading={loading} error={error}>
-        <Row>{productsList}</Row>
-      </Loading>
-    </Container>
-  )
+const productsList =
+  records.length > 0
+    ? records.map((record) => (
+      <Col
+        xs={3}
+        key={record.id}
+        className="d-flex justify-content-center mb-5 mt-2"
+      >
+        <Product {...record}  />
+      </Col>
+    ))
+    : "there are no products";
+
+
+
+return (
+  <Container>
+    <p>{params.prefix}</p>
+    <Loading loading={loading} error={error}>
+      <Row>{productsList}</Row>
+    </Loading>
+  </Container>
+)
 }
 
 export default Products
