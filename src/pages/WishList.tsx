@@ -1,6 +1,6 @@
 import { useEffect } from "react"
 import { useAppSelector, useAppDispatch } from "@store/hooks"
-import { actGetWishlist, productsFullInfoCleanUp } from "@store/whisList/WishlistSlice"
+import { actGetWishlist, wishlistproductsFullInfoCleanUp } from "@store/whisList/WishlistSlice"
 import GridList from "@components/common/GridList/GridList"
 import Product from "@components/ecommerce/product/Product"
 import Loading from "@components/feedback/Loading"
@@ -18,7 +18,7 @@ const WishList = () => {
     useEffect(() => {
         dispatch(actGetWishlist());
         return () => {
-            dispatch(productsFullInfoCleanUp());
+            dispatch(wishlistproductsFullInfoCleanUp());
         };
     }, [dispatch]);
 

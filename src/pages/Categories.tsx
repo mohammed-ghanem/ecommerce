@@ -2,7 +2,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { useEffect } from "react"
 import Category from "@components/ecommerce/category/Category"
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { actGetCategories } from "@store/categories/CategoriesSlice";
+import { actGetCategories, categoriesCleanUp } from "@store/categories/CategoriesSlice";
 
 import Loading from "@components/feedback/Loading";
 
@@ -14,6 +14,9 @@ const Categories = () => {
 
   useEffect(() => {
     dispatch(actGetCategories())
+    return () => {
+      dispatch(categoriesCleanUp())
+    }
   }, [dispatch])
 
   const categoriesList = record.length > 0 ? record.map((el) => (
