@@ -9,6 +9,7 @@ import Login from '@pages/Login';
 import Register from '@pages/Register';
 import ErrorPage from '@pages/ErrorPage';
 import Cart from '@pages/Cart';
+import WishList from '@pages/WishList';
 
 
 const router = createBrowserRouter([{
@@ -23,6 +24,10 @@ const router = createBrowserRouter([{
         {
             path: 'cart',
             element: <Cart />
+        },
+        {
+            path: 'wishlist',
+            element: <WishList />
         },
         {
             path: "categories",

@@ -10,11 +10,12 @@ import styles from './style.module.css'
 
 const { product, productImg, wishlistBtn } = styles;
 
-const Product = ({ id, title, img, price }: TProduct) => {
+const Product = ({ id, title, img, price, isLiked }: TProduct) => {
   const dispatch = useAppDispatch();
 
   const [isBtnDisabled, setIsBtnDisabled] = useState(false);
 
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
     if (!isBtnDisabled) {
@@ -35,7 +36,11 @@ const Product = ({ id, title, img, price }: TProduct) => {
   };
 
   const likeToggleHandler = () => {
+    setIsLoading(true)
     dispatch(actLikeToggle(id))
+      .unwrap()
+      .then(() => setIsLoading(false))
+      .catch(() => setIsLoading(false))
   }
 
 
@@ -43,7 +48,14 @@ const Product = ({ id, title, img, price }: TProduct) => {
   return (
     <div className={product}>
       <div className={wishlistBtn} onClick={likeToggleHandler}>
-        <Like />
+        {isLoading ? (
+          <Spinner animation="border" size="sm" variant="primary" />
+        ) : isLiked ? (
+          <LikeFill />
+        ) : (
+          <Like />
+        )}
+
       </div>
       <div className={productImg}>
         <img src={img} alt={title} />

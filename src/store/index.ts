@@ -22,11 +22,17 @@ const cartPersistConfig = {
   whitelist: ["items"],
 };
 
+const wishlistPersistConfig = {
+  key: "wishlist",
+  storage,
+  whitelist: ["itemsId"],
+};
+
 const rootReducer = combineReducers({
   categories,
   products,
   cart: persistReducer(cartPersistConfig, cart),
-  Wishlist,
+  Wishlist: persistReducer(wishlistPersistConfig, Wishlist),
 });
 
 

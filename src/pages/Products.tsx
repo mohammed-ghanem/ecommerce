@@ -2,49 +2,41 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@store/hooks";
 import { actGetProductsByCatPrefix, productsCleanUp } from "@store/products/ProductsSlice";
-import { Container, Row, Col } from "react-bootstrap";
 import Product from "@components/ecommerce/product/Product"
 import Loading from "@components/feedback/Loading";
-
+import GridList from "@components/common/GridList/GridList";
+import { TProduct } from "@customTypes/sharedProducts";
 const Products = () => {
   const params = useParams();
   const dispatch = useAppDispatch();
   const { loading, error, records } = useAppSelector((state) => state.products);
-  // const wishListItemsId = useAppSelector((state) => state.Wishlist.itemsId)
+  const wishListItemsId = useAppSelector((state) => state.Wishlist.itemsId)
+
 
   useEffect(() => {
     dispatch(actGetProductsByCatPrefix(params.prefix as string));
 
-    // clean product after leaving the page 
     return () => {
       dispatch(productsCleanUp());
-    }
+    };
   }, [dispatch, params]);
 
+  const productsFullInfo = records.map((el) => ({
+    ...el,
+    isLiked: wishListItemsId.includes(el.id),
+  }));
 
-const productsList =
-  records.length > 0
-    ? records.map((record) => (
-      <Col
-        xs={3}
-        key={record.id}
-        className="d-flex justify-content-center mb-5 mt-2"
-      >
-        <Product {...record}  />
-      </Col>
-    ))
-    : "there are no products";
+  return (
+    <>
+      <Loading loading={loading} error={error}>
+        <GridList<TProduct>
+          records={productsFullInfo}
+          renderItem={(record) => <Product {...record} />}
+        />
+      </Loading>
+    </>
+  );
+};
 
-
-
-return (
-  <Container>
-    <p>{params.prefix}</p>
-    <Loading loading={loading} error={error}>
-      <Row>{productsList}</Row>
-    </Loading>
-  </Container>
-)
-}
 
 export default Products
