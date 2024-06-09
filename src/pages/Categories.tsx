@@ -1,29 +1,19 @@
-import { Container, Row, Col } from "react-bootstrap";
-import { useEffect } from "react"
-import Category from "@components/ecommerce/category/Category"
-import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { actGetCategories, categoriesCleanUp } from "@store/categories/CategoriesSlice";
-
+import { Container, Row } from "react-bootstrap";
 import Loading from "@components/feedback/Loading";
-
-
+import useCategories from "@hooks/useCategories";
+import { Col } from "react-bootstrap";
+import Category from "@components/ecommerce/category/Category"
 
 const Categories = () => {
-  const dispatch = useAppDispatch()
-  const { loading, error, record } = useAppSelector((state) => state.categories)
 
-  useEffect(() => {
-    dispatch(actGetCategories())
-    return () => {
-      dispatch(categoriesCleanUp())
-    }
-  }, [dispatch])
+  const { loading, error, record } = useCategories()
 
-  const categoriesList = record.length > 0 ? record.map((el) => (
-    <Col key={el.id} xl={3} lg={4} md={6} sm={6} xs={12}>
-      <Category {...el} />
-    </Col>
-  )) : <div> there is no categories </div>
+  const categoriesList = record.length > 0 ?
+    record.map((el) => (
+      <Col key={el.id} xl={3} lg={4} md={6} sm={6} xs={12}>
+        <Category {...el} />
+      </Col>
+    )) : <div>there is no gategories</div>
 
   return (
     <Container>
