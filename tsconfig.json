@@ -29,6 +29,8 @@
       "@layouts/*": ["src/layouts/*"],
       "@util/*": ["src/util/*"],
       "@services/*": ["src/services/*"],
+      "@validations/*":["src/validations/*"],
+      "@form/*":["src/form/*"]
       
     },
 
