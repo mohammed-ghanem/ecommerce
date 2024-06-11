@@ -2,7 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, signUpType } from "@validations/signUpValidation";
-import InputForm from "@form/InputForm";
+import InputForm from "@components/form/InputForm";
 
 
 
@@ -18,64 +18,51 @@ const Register = () => {
   return (
     <Row>
       <Col md={{ span: 6, offset: 3 }}>
+        <h3>Register Page</h3>
         <Form onSubmit={handleSubmit(submitForm)}>
+          {/* first name input */}
           <InputForm
             label="First Name"
             name="firstName"
+            Placeholder=" first name"
             register={register}
-            error={errors.firstName?.message} />
-
-          {/* first name input */}
-
-          {/* <Form.Group className='mb-3'>
-            <Form.Label>First Name</Form.Label>
-            <Form.Control type="text" placeholder="first name"
-              {...register("firstName", { required: true })}
-              isInvalid={errors.firstName?.message ? true : false} />
-            <Form.Control.Feedback type="invalid">
-              {errors.firstName?.message}
-            </Form.Control.Feedback>
-          </Form.Group> */}
+            error={errors.firstName?.message}
+          />
           {/* last name input */}
-          <Form.Group className='mb-3'>
-            <Form.Label>Last Name</Form.Label>
-            <Form.Control type="text" placeholder="last name"
-              {...register("lastName", { required: true })}
-              isInvalid={errors.lastName?.message ? true : false} />
-            <Form.Control.Feedback type="invalid">
-              {errors.lastName?.message}
-            </Form.Control.Feedback>
-          </Form.Group>
+          <InputForm
+            label="Last Name"
+            name="lastName"
+            Placeholder=" last name"
+            register={register}
+            error={errors.lastName?.message}
+          />
           {/* email address input */}
-          <Form.Group className='mb-3'>
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="text" placeholder="Enter email"
-              {...register("email", { required: true })}
-              isInvalid={errors.email?.message ? true : false} />
-            <Form.Control.Feedback type="invalid">
-              {errors.email?.message}
-            </Form.Control.Feedback>
-          </Form.Group>
+          <InputForm
+            label="Email address"
+            name="email"
+            Placeholder="Email address"
+            register={register}
+            error={errors.email?.message}
+          />
           {/* password input */}
-          <Form.Group className='mb-3'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password"
-              {...register("password", { required: true })}
-              isInvalid={errors.password?.message ? true : false} />
-            <Form.Control.Feedback type="invalid">
-              {errors.password?.message}
-            </Form.Control.Feedback>
-          </Form.Group>
+          <InputForm
+            label="password"
+            name="password"
+            Placeholder="Password"
+            type="password"
+            register={register}
+            error={errors.password?.message}
+          />
           {/*confirm password input */}
-          <Form.Group className='mb-3'>
-            <Form.Label>Confirm Password</Form.Label>
-            <Form.Control type="password" placeholder="confirm Password"
-              {...register("confirmPassword", { required: true })}
-              isInvalid={errors.confirmPassword?.message ? true : false} />
-            <Form.Control.Feedback type="invalid">
-              {errors.confirmPassword?.message}
-            </Form.Control.Feedback>
-          </Form.Group>
+          <InputForm
+            label="confirm password"
+            name="confirmPassword"
+            Placeholder="Confirm Password"
+            type="password"
+            register={register}
+            error={errors.confirmPassword?.message}
+
+          />
 
           <Button variant="primary" type="submit">
             Submit

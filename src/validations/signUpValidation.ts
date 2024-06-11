@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const signUpSchema = z
-    .object({
+    .object({ 
         firstName: z.string()
             .min(6, { message: "First name must be 6 min charcters" })
             .max(10, { message: "first name must be no longer" }),

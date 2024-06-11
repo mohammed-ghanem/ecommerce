@@ -1,17 +1,45 @@
 import { Button, Col, Form, Row } from 'react-bootstrap';
+import { signInSchema, signInType } from "@validations/signInValidation"
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import InputForm from '@components/form/InputForm';
+
+
 const Login = () => {
+  const { handleSubmit, register, formState: { errors }, } = useForm<signInType>(
+    {
+      resolver: zodResolver(signInSchema),
+      mode: "onChange"
+    }
+  )
+
+  const submitForm: SubmitHandler<signInType> = (data) => {
+    console.log(data)
+  }
+
   return (
     <Row>
+
       <Col md={{ span: 6, offset: 3 }}>
-        <Form>
-          <Form.Group className='mb-3'>
-            <Form.Label>Email address</Form.Label>
-            <Form.Control type="text" placeholder="Enter email" name="email" />
-          </Form.Group>
-          <Form.Group className='mb-3'>
-            <Form.Label>Password</Form.Label>
-            <Form.Control type="password" placeholder="Password" name="password" />
-          </Form.Group>
+        <h3>Login Page</h3>
+        <Form onSubmit={handleSubmit(submitForm)}>
+
+          <InputForm
+            register={register}
+            Placeholder='Email Address'
+            label="Email Address"
+            name={'email'}
+            error={errors.email?.message}
+          />
+          <InputForm
+            register={register}
+            Placeholder='Password'
+            label="Password"
+            name='password'
+            error={errors.password?.message}
+            type='password'
+          />
+
           <Button variant="primary" type="submit">
             Submit
           </Button>
