@@ -4,9 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, signUpType } from "@validations/signUpValidation";
 import InputForm from "@components/form/InputForm";
 
-
-
-
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm<signUpType>({
     resolver: zodResolver(signUpSchema),
