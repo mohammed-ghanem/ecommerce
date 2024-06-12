@@ -4,11 +4,25 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, signUpType } from "@validations/signUpValidation";
 import InputForm from "@components/form/InputForm";
 
+
 const Register = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<signUpType>({
+  const { register, handleSubmit, formState: { errors }, getFieldState, trigger } = useForm<signUpType>({
     resolver: zodResolver(signUpSchema),
-    mode: "onChange"
+    mode: "onBlur"
   });
+
+  const emailOnBlurHandler = async (e: React.FocusEvent<HTMLInputElement>) => {
+    // use trigger to make validation for email work automaticly
+    await trigger("email")
+    const value = e.target.value;
+    const { isDirty, invalid } = getFieldState("email")
+    if (isDirty && !invalid) {
+      // send request to check if email is available
+      
+
+    }
+  }
+
   const submitForm: SubmitHandler<signUpType> = (data) => {
     console.log(data)
   }
@@ -40,6 +54,7 @@ const Register = () => {
             Placeholder="Email address"
             register={register}
             error={errors.email?.message}
+            onBlur={emailOnBlurHandler}
           />
           {/* password input */}
           <InputForm
