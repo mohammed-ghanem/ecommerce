@@ -1,11 +1,13 @@
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Row, Alert } from 'react-bootstrap';
 import { signInSchema, signInType } from "@validations/signInValidation"
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import InputForm from '@components/form/InputForm';
+import { useSearchParams } from 'react-router-dom';
 
 
 const Login = () => {
+  const [searchParams, setSearchParams] = useSearchParams()
   const { handleSubmit, register, formState: { errors }, } = useForm<signInType>(
     {
       resolver: zodResolver(signInSchema),
@@ -21,7 +23,15 @@ const Login = () => {
     <Row>
 
       <Col md={{ span: 6, offset: 3 }}>
+
+        {searchParams.get("message") === "account_created"
+          &&
+          (<Alert variant='success'>
+            your account is created successfully please login in </Alert>
+          )
+        }
         <h3>Login Page</h3>
+
         <Form onSubmit={handleSubmit(submitForm)}>
 
           <InputForm

@@ -52,7 +52,7 @@ const InputForm = <TFieldValue extends FieldValues>({
                 onChange={onChangeHandler}
                 isInvalid={error ? true : false}
                 isValid={success ? true : false}
-                // disabled={disabled}
+                disabled={disabled}
 
             />
             <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
