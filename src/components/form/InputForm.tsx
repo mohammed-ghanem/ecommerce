@@ -8,7 +8,10 @@ type InputProps<TFieldValue extends FieldValues> = {
     register: UseFormRegister<TFieldValue>;
     error?: string;
     Placeholder?: string;
-    onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void
+    onChange?: (e: React.FocusEvent<HTMLInputElement>) => void,
+    formText?: string;
+    success?: string;
+    disabled?: boolean;
 };
 
 const InputForm = <TFieldValue extends FieldValues>({
@@ -18,20 +21,24 @@ const InputForm = <TFieldValue extends FieldValues>({
     register,
     error,
     Placeholder,
-    onBlur
+    onChange,
+    formText,
+    success,
+    disabled,
+
 
 
 }: InputProps<TFieldValue>) => {
 
-    const blurHandler = (e: React.FocusEvent<HTMLInputElement>) => {
-        if (onBlur) {
+    const onChangeHandler = (e: React.FocusEvent<HTMLInputElement>) => {
+        if (onChange) {
             //if there are onblur let my onblur work
             //after that let register work with my my onblur event
-            onBlur(e);
-            register(name).onBlur(e)
+            onChange(e);
+            register(name).onChange(e)
         } else {
             // if there is no blur let register work with her option blur
-            register(name).onBlur(e)
+            register(name).onChange(e)
         }
     }
 
@@ -42,11 +49,14 @@ const InputForm = <TFieldValue extends FieldValues>({
                 placeholder={Placeholder}
                 type={type}
                 {...register(name)}
+                onChange={onChangeHandler}
                 isInvalid={error ? true : false}
-                onBlur={blurHandler}
+                isValid={success ? true : false}
+                // disabled={disabled}
+
             />
             <Form.Control.Feedback type="invalid">{error}</Form.Control.Feedback>
-
+            {formText && <Form.Text muted>{formText}</Form.Text>}
         </Form.Group>
     );
 };
