@@ -1,12 +1,18 @@
-import { Button, Col, Form, Row, Alert } from 'react-bootstrap';
+import { Button, Col, Form, Row, Alert, Spinner } from 'react-bootstrap';
 import { signInSchema, signInType } from "@validations/signInValidation"
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import InputForm from '@components/form/InputForm';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { actAuthLogin, restUI } from '@store/auth/authSlice';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { useEffect } from 'react';
 
 
 const Login = () => {
+  const { error, loading } = useAppSelector((state) => state.auth)
+  const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const { handleSubmit, register, formState: { errors }, } = useForm<signInType>(
     {
@@ -16,8 +22,17 @@ const Login = () => {
   )
 
   const submitForm: SubmitHandler<signInType> = (data) => {
-    console.log(data)
+    if (searchParams.get("message") === "account_created") {
+      setSearchParams("")
+    }
+    dispatch(actAuthLogin(data)).unwrap().then(() => navigate("/"))
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(restUI())
+    }
+  }, [dispatch])
 
   return (
     <Row>
@@ -51,8 +66,17 @@ const Login = () => {
           />
 
           <Button variant="primary" type="submit">
-            Submit
+            {loading === "pending" ? (
+              <>
+                <Spinner animation="border" size="sm"></Spinner> Loading...
+              </>
+            ) : (
+              "Submit"
+            )}
           </Button>
+          {error && (
+            <p style={{ color: "#DC3545", marginTop: "10px" }}>{error}</p>
+          )}
         </Form>
       </Col>
     </Row>

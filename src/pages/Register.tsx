@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from "@store/hooks";
-import { actAuthRegister } from "@store/auth/authSlice";
+import { actAuthRegister, restUI } from "@store/auth/authSlice";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { Button, Col, Form, Row, Spinner } from 'react-bootstrap';
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -7,6 +7,7 @@ import { signUpSchema, signUpType } from "@validations/signUpValidation";
 import InputForm from "@components/form/InputForm";
 import useCheckEmailAvailability from "@hooks/useCheckEmailAvailability"
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 
 const Register = () => {
@@ -45,6 +46,13 @@ const Register = () => {
         navigate('/login?message=account_created')
       })
   }
+
+  useEffect(() => {
+    return () => {
+      dispatch(restUI())
+    }
+  }, [dispatch])
+
   return (
     <Row>
       <Col md={{ span: 6, offset: 3 }}>
