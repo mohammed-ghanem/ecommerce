@@ -1,12 +1,17 @@
-import { Badge, Navbar, Nav, Container } from "react-bootstrap"
+import { Badge, Navbar, Nav, Container, NavDropdown } from "react-bootstrap"
 import HeaderBasket from "@components/ecommerce/headBasket/HeaderBasket";
 import HeaderWishlist from "@components/ecommerce/headWishlist/HeaderWishlist";
 import styles from "./style.module.css"
 import { NavLink } from "react-router-dom";
+import { useAppSelector  , useAppDispatch} from "@store/hooks";
+import { userLogout } from "@store/auth/authSlice";
 
 const { headerContainer, headerLogo } = styles;
 
 const Header = () => {
+
+    const { accessToken, user } = useAppSelector((state) => state.auth)
+    const dispatch = useAppDispatch()
     return (
         <header>
             <div className={headerContainer}>
@@ -36,12 +41,42 @@ const Header = () => {
                             </Nav.Link>
                         </Nav>
                         <Nav>
-                            <Nav.Link as={NavLink} to={"/login"}>
-                                Login
-                            </Nav.Link>
-                            <Nav.Link as={NavLink} to={"/register"}>
-                                Register
-                            </Nav.Link>
+                            {
+                                !accessToken
+                                    ?
+                                    (
+                                        <>
+                                            <Nav.Link as={NavLink} to={"/login"}>
+                                                Login
+                                            </Nav.Link>
+                                            <Nav.Link as={NavLink} to={"/register"}>
+                                                Register
+                                            </Nav.Link>
+                                        </>
+                                    )
+                                    :
+                                    (
+                                        <NavDropdown
+                                            title={`Welcome: ${user?.firstName} ${user?.lastName}`}
+                                            id="basic-nav-dropdown"
+                                        >
+                                            <NavDropdown.Item as={NavLink} to="profile">
+                                                Profile
+                                            </NavDropdown.Item>
+                                            <NavDropdown.Item>Orders</NavDropdown.Item>
+                                            <NavDropdown.Divider />
+                                            <NavDropdown.Item onClick={
+                                                () => {
+                                                    dispatch(userLogout())
+                                                    window.location.href = "/"
+                                                }
+                                            }
+                                            >Logout</NavDropdown.Item>
+                                        </NavDropdown>
+                                    )
+
+                            }
+
                         </Nav>
 
                     </Navbar.Collapse>

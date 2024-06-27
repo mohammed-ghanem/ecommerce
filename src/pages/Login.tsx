@@ -3,14 +3,14 @@ import { signInSchema, signInType } from "@validations/signInValidation"
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import InputForm from '@components/form/InputForm';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
 import { actAuthLogin, restUI } from '@store/auth/authSlice';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { useEffect } from 'react';
 
 
 const Login = () => {
-  const { error, loading } = useAppSelector((state) => state.auth)
+  const { error, loading, accessToken } = useAppSelector((state) => state.auth)
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -34,6 +34,11 @@ const Login = () => {
     }
   }, [dispatch])
 
+  // if user is login in block login page 
+  if (accessToken) {
+    return <Navigate to="/" />
+  }
+
   return (
     <Row>
 
@@ -43,6 +48,12 @@ const Login = () => {
           &&
           (<Alert variant='success'>
             your account is created successfully please login in </Alert>
+          )
+        }
+        {searchParams.get("message") === "please_login"
+          &&
+          (<Alert variant='success'>
+            you need to login first to access this page  </Alert>
           )
         }
         <h3>Login Page</h3>

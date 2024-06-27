@@ -6,13 +6,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { signUpSchema, signUpType } from "@validations/signUpValidation";
 import InputForm from "@components/form/InputForm";
 import useCheckEmailAvailability from "@hooks/useCheckEmailAvailability"
-import { useNavigate } from "react-router-dom";
+import { Navigate , useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 
 const Register = () => {
   const dispatch = useAppDispatch()
-  const { loading, error } = useAppSelector((state) => state.auth)
+  const { loading, error , accessToken } = useAppSelector((state) => state.auth)
   const navigate = useNavigate()
 
 
@@ -52,6 +52,12 @@ const Register = () => {
       dispatch(restUI())
     }
   }, [dispatch])
+
+  // if user is login in block login page 
+  if (accessToken) {
+    return <Navigate to="/" />
+  }
+
 
   return (
     <Row>

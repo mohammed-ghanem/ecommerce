@@ -3,6 +3,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 // pages
 import ErrorPage from "@pages/ErrorPage";
 import MainLayOut from "@layouts/mainLayOut/MainLayOut";
+// to protect profile page
+import ProtectedRoute from "@components/auth/ProtectedRoute";
 // lazy load
 const Home = lazy(() => import("@pages/Home"));
 const WishList = lazy(() => import("@pages/WishList"));
@@ -12,6 +14,7 @@ const Products = lazy(() => import("@pages/Products"));
 const AboutUs = lazy(() => import("@pages/AboutUs"));
 const Login = lazy(() => import("@pages/Login"));
 const Register = lazy(() => import("@pages/Register"));
+const Profile = lazy(() => import("@pages/Profile"))
 
 
 
@@ -95,6 +98,17 @@ const router = createBrowserRouter([{
                 <Suspense fallback="loading please wait..">
                     <Register />
                 </Suspense>
+            )
+        },
+        {
+            path: "profile",
+            element: (
+                <ProtectedRoute>
+                    <Suspense fallback="loading please wait..">
+                        <Profile />
+                    </Suspense>
+                </ProtectedRoute>
+
             )
         },
 
